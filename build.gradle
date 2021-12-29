@@ -1,0 +1,42 @@
+buildscript {
+    ext {
+        springBootVersion = '2.6.0'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.atm.extract'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.apache.camel.springboot:camel-spring-boot-starter:3.14.0')
+    compile('org.apache.camel.springboot:camel-jetty-starter:3.14.0')
+    compile('org.apache.camel.springboot:camel-kafka-starter:3.14.0')
+    compile('org.apache.camel.springboot:camel-jacksonxml-starter:3.14.0')
+    compile('org.apache.camel.springboot:camel-jackson-starter:3.14.0')
+    compile('org.apache.camel:camel-endpointdsl:3.14.0')
+    compile('org.projectlombok:lombok')
+    compile('org.apache.commons:commons-lang3')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
