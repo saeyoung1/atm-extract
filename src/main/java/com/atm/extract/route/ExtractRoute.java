@@ -14,11 +14,17 @@ import java.util.Map;
 //@Component
 public class ExtractRoute extends EndpointRouteBuilder {
 
-    public static final String ROUTE_ID = "atm-extract";
+    public static final String ROUTE_ID = "atm-extract-port";
+
+    private long port = 8081;
+
+    public ExtractRoute(long port) {
+        this.port = port;
+    }
 
     @Override
     public void configure() throws Exception{
-        from(jetty("http://localhost:8081/atm/intf1")).routeId(ROUTE_ID)
+        from(jetty("http://localhost:"+port+"/atm/intf1")).routeId(getRouteId())
         .unmarshal().json()
         .process(QualityVerificationProcessor.NAME)
         .process(BindHeadersProcessor.NAME)
@@ -34,5 +40,9 @@ public class ExtractRoute extends EndpointRouteBuilder {
     private boolean isErrorMessage(Exchange exchange) {
         return !StringUtils.equals((CharSequence) exchange.getMessage().getHeader("statusCode"), "200");
 	}
+
+	private String getRouteId(){
+        return ROUTE_ID + port;
+    }
 }
 

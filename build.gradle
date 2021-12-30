@@ -29,14 +29,13 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.apache.camel.springboot:camel-spring-boot-starter:3.14.0')
-    compile('org.apache.camel.springboot:camel-jetty-starter:3.14.0')
-    compile('org.apache.camel.springboot:camel-kafka-starter:3.14.0')
-    compile('org.apache.camel.springboot:camel-jacksonxml-starter:3.14.0')
-    compile('org.apache.camel.springboot:camel-jackson-starter:3.14.0')
-    compile('org.apache.camel:camel-endpointdsl:3.14.0')
-    compile('org.projectlombok:lombok')
-    compile('org.apache.commons:commons-lang3')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.apache.camel.springboot:camel-spring-boot-starter:3.14.0')
+    implementation('org.apache.camel.springboot:camel-jetty-starter:3.14.0')
+    implementation('org.apache.camel.springboot:camel-kafka-starter:3.14.0')
+    implementation('org.apache.camel.springboot:camel-jacksonxml-starter:3.14.0')
+    implementation('org.apache.camel.springboot:camel-jackson-starter:3.14.0')
+    implementation('org.apache.camel:camel-endpointdsl:3.14.0')
+    implementation('org.projectlombok:lombok')
+    implementation('org.apache.commons:commons-lang3')
 }
