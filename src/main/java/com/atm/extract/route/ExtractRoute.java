@@ -1,7 +1,9 @@
 package com.atm.extract.route;
 
 import com.atm.extract.processor.BindHeadersProcessor;
+import com.atm.extract.processor.ErrorMessageSettingProcessor;
 import com.atm.extract.processor.QualityVerificationProcessor;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -12,26 +14,25 @@ import java.util.Map;
 @Component
 public class ExtractRoute extends EndpointRouteBuilder {
 
+    public static final String ROUTE_ID = "atm-extract";
+
     @Override
     public void configure() throws Exception{
-        from(jetty("http://localhost:8081/atm/intf1"))
+        from(jetty("http://localhost:8081/atm/intf1")).routeId(ROUTE_ID)
         .unmarshal().json()
         .process(QualityVerificationProcessor.NAME)
         .process(BindHeadersProcessor.NAME)
-        .process(exchange -> {
-           Map<?,?> headers = exchange.getMessage().getHeaders();
-           String bodyString = exchange.getMessage().getBody(String.class);
-
-           if(!StringUtils.equals((CharSequence) headers.get("statusCode"),"200")){
-               Map<String, String> body = new HashMap<>();
-               body.put("statusCode", (String) headers.get("statusCode"));
-               body.put("errorMessage", (String) headers.get("errorMessage"));
-               body.put("data",bodyString);
-               exchange.getMessage().setBody(body);
-           }
-        })
+        .filter(this :: isErrorMessage)
+            .process(ErrorMessageSettingProcessor.NAME)
+            .log("http status error : ${headers.errorMessage}")
+        .end()
         .marshal().json()
-        .log("finish");
+        //.to(kafka("ATM-COLLECT-001"))
+        .log("send to collect");
     }
+
+    private boolean isErrorMessage(Exchange exchange) {
+        return !StringUtils.equals((CharSequence) exchange.getMessage().getHeader("statusCode"), "200");
+	}
 }
 
