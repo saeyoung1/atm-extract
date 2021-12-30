@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+//@Component
 public class ExtractRoute extends EndpointRouteBuilder {
 
     public static final String ROUTE_ID = "atm-extract";

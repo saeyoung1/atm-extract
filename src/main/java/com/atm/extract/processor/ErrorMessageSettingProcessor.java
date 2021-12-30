@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 연계결과를 나타내는 http status 값을 입력하는 프로세서
+ *  errorMessage를 body에 담는 프로세서
  */
 @Component(ErrorMessageSettingProcessor.NAME)
 public class ErrorMessageSettingProcessor implements Processor {
